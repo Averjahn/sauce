@@ -35,18 +35,6 @@
     padding:6vh 24px;
   }
 
-  /* single edition tag, top corner */
-  .tag{
-    position:fixed;
-    top:26px;
-    right:30px;
-    font-size:.7rem;
-    letter-spacing:.22em;
-    color:var(--whisper);
-    text-transform:lowercase;
-    animation:rise 1s var(--ease) 1.15s both;
-  }
-
   main{
     display:flex;
     flex-direction:column;
@@ -122,19 +110,6 @@
   .buy.fade{opacity:0}
   .buy.done{color:var(--ink);letter-spacing:.28em;text-indent:.28em}
 
-  .credit{
-    position:fixed;
-    bottom:16px;
-    left:0;right:0;
-    text-align:center;
-    font-size:.6rem;
-    letter-spacing:.04em;
-    color:var(--ghost);
-    animation:rise 1s var(--ease) 1.3s both;
-  }
-  .credit a{color:inherit;text-decoration:none}
-  .credit a:hover{color:var(--whisper)}
-
   @keyframes rise{
     from{opacity:0;transform:translateY(14px)}
     to{opacity:1;transform:none}
@@ -142,7 +117,6 @@
 
   @media (max-width:480px){
     .stage img{height:auto;width:min(66vw,320px)}
-    .tag{top:18px;right:20px}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -150,11 +124,9 @@
 </style>
 </head>
 <body>
-  <div class="tag" id="tag">1 / 1</div>
-
   <main>
     <figure class="stage">
-      <img src="sauce.jpg" alt="соус" draggable="false" width="883" height="1024">
+      <img src="sauce.jpg" alt="соус" draggable="false" width="443" height="1200">
     </figure>
 
     <div class="plate">
@@ -167,15 +139,10 @@
     </div>
   </main>
 
-  <p class="credit">
-    фото · <a href="https://commons.wikimedia.org/wiki/File:Kikkoman_soysauce.jpg" target="_blank" rel="noopener">Creative&nbsp;Tools</a> · <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC&nbsp;BY&nbsp;2.0</a>
-  </p>
-
   <script>
     (function(){
       var buy = document.getElementById('buy');
       var cta = document.getElementById('cta');
-      var tag = document.getElementById('tag');
       if(!cta) return;
       cta.addEventListener('click', function(){
         buy.classList.add('fade');
@@ -183,7 +150,6 @@
           buy.textContent = 'спасибо.';
           buy.classList.remove('fade');
           buy.classList.add('done');
-          tag.textContent = 'продано';
         }, 320);
       });
     })();
