@@ -33,6 +33,7 @@
     justify-content:center;
     overflow-x:hidden;
     padding:6vh 24px;
+    touch-action:none;
   }
 
   main{
@@ -215,14 +216,19 @@
         wake();
       }
 
+      // unified pointer events cover mouse, touch and pen alike
+      window.addEventListener('pointerdown', function(e){
+        last = null; // each new touch/click starts its own stroke, no connecting streak
+        pushPoint(e.clientX, e.clientY);
+      }, { passive:true });
+
       window.addEventListener('pointermove', function(e){
         pushPoint(e.clientX, e.clientY);
       }, { passive:true });
 
-      window.addEventListener('touchmove', function(e){
-        var t = e.touches && e.touches[0];
-        if(t) pushPoint(t.clientX, t.clientY);
-      }, { passive:true });
+      function endStroke(){ last = null; }
+      window.addEventListener('pointerup', endStroke, { passive:true });
+      window.addEventListener('pointercancel', endStroke, { passive:true });
 
       function dab(x, y, r, dx, dy, speed){
         var ang = Math.atan2(dy, dx);
