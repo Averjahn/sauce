@@ -121,9 +121,29 @@
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
   }
+
+  #sauceTrail{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:50;
+    mix-blend-mode:multiply;
+    filter:url(#sauceWobble);
+  }
 </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="sauceWobble" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence id="sauceNoise" type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <canvas id="sauceTrail" aria-hidden="true"></canvas>
+
   <main>
     <figure class="stage">
       <img src="sauce.jpg?v=2" alt="соус" draggable="false" width="443" height="1200">
@@ -152,6 +172,157 @@
           buy.classList.add('done');
         }, 320);
       });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var canvas = document.getElementById('sauceTrail');
+      if(!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d', {alpha:true});
+      if(!ctx) return;
+
+      var DPR = Math.min(window.devicePixelRatio || 1, 2);
+      var W = 0, H = 0;
+
+      function resize(){
+        W = canvas.width  = Math.max(1, Math.floor(innerWidth  * DPR));
+        H = canvas.height = Math.max(1, Math.floor(innerHeight * DPR));
+        canvas.style.width  = innerWidth + 'px';
+        canvas.style.height = innerHeight + 'px';
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function rand(a, b){ return a + Math.random() * (b - a); }
+
+      var last = null;      // {x,y,t} in device px
+      var pressure = 0.2;   // builds while dwelling, sells "pooling" sauce
+      var queue = [];
+      var fadeTS = null;
+      var active = false;   // has the user ever moved? avoids idle work
+      var idleTimer = null;
+
+      function wake(){
+        active = true;
+        if(idleTimer) clearTimeout(idleTimer);
+        idleTimer = setTimeout(function(){ active = false; }, 4000);
+      }
+
+      function pushPoint(x, y){
+        queue.push({ x: x * DPR, y: y * DPR, t: performance.now() });
+        if(queue.length > 60) queue.shift(); // guard against runaway backlog
+        wake();
+      }
+
+      window.addEventListener('pointermove', function(e){
+        pushPoint(e.clientX, e.clientY);
+      }, { passive:true });
+
+      window.addEventListener('touchmove', function(e){
+        var t = e.touches && e.touches[0];
+        if(t) pushPoint(t.clientX, t.clientY);
+      }, { passive:true });
+
+      function dab(x, y, r, dx, dy, speed){
+        var ang = Math.atan2(dy, dx);
+        var stretch = Math.min(1 + speed * 1.6, 2.4);
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(ang);
+        ctx.scale(stretch, 1);
+
+        // irregular blob body — a few offset ellipses read as one viscous smear
+        var n = 3;
+        for(var i = 0; i < n; i++){
+          var ox = rand(-r * 0.22, r * 0.22);
+          var oy = rand(-r * 0.22, r * 0.22);
+          var rr = r * rand(0.78, 1.05);
+          var g = ctx.createRadialGradient(ox, oy, 0, ox, oy, rr);
+          g.addColorStop(0,    'rgba(120,15,9,0.94)');
+          g.addColorStop(0.55, 'rgba(179,27,16,0.86)');
+          g.addColorStop(1,    'rgba(179,27,16,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.ellipse(ox, oy, rr, rr * 0.85, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // chili-flake specks, echoing the product's texture
+        if(Math.random() < 0.55){
+          var fn = 1 + Math.floor(Math.random() * 2);
+          for(var j = 0; j < fn; j++){
+            ctx.fillStyle = 'rgba(34,9,5,' + rand(0.35, 0.6).toFixed(2) + ')';
+            ctx.beginPath();
+            ctx.ellipse(rand(-r*0.55, r*0.55), rand(-r*0.45, r*0.45), rand(0.6,1.5)*DPR, rand(0.6,1.5)*DPR, rand(0,6.28), 0, 6.28);
+            ctx.fill();
+          }
+        }
+
+        // wet glossy highlight
+        var prevOp = ctx.globalCompositeOperation;
+        ctx.globalCompositeOperation = 'lighter';
+        var hg = ctx.createRadialGradient(-r*0.28, -r*0.32, 0, -r*0.28, -r*0.32, r*0.5);
+        hg.addColorStop(0, 'rgba(255,214,170,0.5)');
+        hg.addColorStop(1, 'rgba(255,214,170,0)');
+        ctx.fillStyle = hg;
+        ctx.beginPath();
+        ctx.ellipse(-r*0.28, -r*0.32, r*0.5, r*0.4, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.globalCompositeOperation = prevOp;
+
+        ctx.restore();
+      }
+
+      function processQueue(){
+        var q = queue;
+        queue = [];
+        for(var k = 0; k < q.length; k++){
+          var p = q[k];
+          if(last){
+            var dx = p.x - last.x, dy = p.y - last.y;
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            var dt = Math.min(120, Math.max(1, p.t - last.t));
+            var speed = dist / dt; // device px per ms
+
+            pressure = speed < 0.12 ? Math.min(pressure + 0.05, 1) : Math.max(pressure - 0.10, 0.18);
+            var baseR = (7 + pressure * 15) * DPR;
+            var spacing = Math.max(3 * DPR, baseR * 0.35);
+            var steps = Math.min(40, Math.max(1, Math.floor(dist / spacing)));
+
+            for(var i = 1; i <= steps; i++){
+              var t = i / steps;
+              dab(last.x + dx*t, last.y + dy*t, baseR * rand(0.85, 1.15), dx, dy, speed);
+            }
+          } else {
+            dab(p.x, p.y, 9 * DPR, 0, 0, 0);
+          }
+          last = p;
+        }
+      }
+
+      function step(now){
+        if(queue.length) processQueue();
+
+        if(active){
+          if(fadeTS == null) fadeTS = now;
+          var fdt = now - fadeTS;
+          fadeTS = now;
+          var HALF_LIFE = 9000; // stain "dries"/fades over roughly this span
+          var fadeAlpha = 1 - Math.pow(0.5, fdt / HALF_LIFE);
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.fillStyle = 'rgba(0,0,0,' + fadeAlpha.toFixed(4) + ')';
+          ctx.fillRect(0, 0, W, H);
+          ctx.restore();
+        } else {
+          fadeTS = null;
+        }
+
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     })();
   </script>
 </body>
