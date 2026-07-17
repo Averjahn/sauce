@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>реклама — соус</title>
+<meta name="description" content="дека соус в облаках">
+<meta name="theme-color" content="#dbe9f5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 C10 13 7 18 7 22 a9 9 0 0 0 18 0 C25 18 22 13 16 3 Z' fill='%23000'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ease:cubic-bezier(.4,0,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{
+    position:relative;
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(255,238,225,.55), rgba(255,238,225,0) 70%),
+      linear-gradient(180deg, #dbe9f5 0%, #eef1ee 45%, #fbe7db 100%);
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Inter",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .back{
+    position:fixed;
+    top:26px;
+    left:30px;
+    font-size:.7rem;
+    letter-spacing:.1em;
+    color:rgba(0,0,0,.28);
+    text-decoration:none;
+    z-index:50;
+    transition:color .3s var(--ease);
+  }
+  .back:hover{color:rgba(0,0,0,.5)}
+
+  /* soft drifting cloud layers */
+  .cloud{
+    position:absolute;
+    border-radius:50%;
+    background:#fff;
+    filter:blur(18px);
+    opacity:.55;
+    will-change:transform;
+  }
+  .cloud.far{opacity:.4;filter:blur(26px)}
+  .cloud.near{opacity:.7;filter:blur(14px)}
+
+  @keyframes cloudDrift{
+    from{transform:translateX(-10vw)}
+    to{transform:translateX(10vw)}
+  }
+
+  /* flying deck instances */
+  .flyer{
+    position:absolute;
+    left:0;
+    top:0;
+    will-change:transform;
+    animation-name:drift;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    filter:drop-shadow(0 24px 30px rgba(0,0,0,.14));
+  }
+  .flyer svg{display:block;width:100%;height:auto}
+
+  @keyframes drift{
+    0%   { transform: translate(-28vw, var(--y0, 0))   rotate(var(--r0, -8deg))  scale(var(--s, 1)); }
+    22%  { transform: translate(18vw,  var(--y1, -4vh)) rotate(var(--r1, 5deg))   scale(var(--s, 1)); }
+    50%  { transform: translate(54vw,  var(--y2, 3vh))  rotate(var(--r2, -6deg))  scale(var(--s, 1)); }
+    76%  { transform: translate(90vw,  var(--y1, -4vh)) rotate(var(--r1, 6deg))   scale(var(--s, 1)); }
+    100% { transform: translate(132vw, var(--y0, 0))   rotate(var(--r0, -8deg))  scale(var(--s, 1)); }
+  }
+
+  .reveal{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    z-index:10;
+    pointer-events:none;
+    animation:revealCycle 14s var(--ease) infinite;
+  }
+  .reveal .word{
+    font-size:clamp(1.4rem,4vw,2.4rem);
+    font-weight:400;
+    letter-spacing:.6em;
+    text-indent:.6em;
+    color:#000;
+  }
+  .reveal .sub{
+    margin-top:14px;
+    font-size:.75rem;
+    letter-spacing:.3em;
+    text-indent:.3em;
+    color:rgba(0,0,0,.4);
+  }
+  @keyframes revealCycle{
+    0%   {opacity:0}
+    8%   {opacity:1}
+    30%  {opacity:1}
+    40%  {opacity:0}
+    100% {opacity:0}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .flyer,.cloud,.reveal{animation:none!important}
+  }
+</style>
+</head>
+<body>
+  <a class="back" href="./">← соус</a>
+
+  <div id="clouds"></div>
+  <div id="flyers"></div>
+
+  <div class="reveal">
+    <div class="word">соус</div>
+    <div class="sub">одна дека · один соус</div>
+  </div>
+
+  <script>
+    // ---- deck silhouette (shared) ----
+    var DECK_PATH = 'M100 4 C140 4 158 22 162 60 L172 220 C176 260 178 300 178 380 ' +
+      'C178 460 176 500 172 540 L162 700 C158 738 140 756 100 756 C60 756 42 738 38 700 ' +
+      'L28 540 C24 500 22 460 22 380 C22 300 24 260 28 220 L38 60 C42 22 60 4 100 4 Z';
+
+    function deckSVG(imgHref, showWord, clipId){
+      var word = showWord
+        ? '<text x="100" y="700" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,sans-serif" font-size="17" letter-spacing="7" fill="#000">соус</text>'
+        : '';
+      return '<svg viewBox="0 0 200 760" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs><clipPath id="' + clipId + '"><path d="' + DECK_PATH + '"/></clipPath></defs>' +
+        '<path d="' + DECK_PATH + '" fill="#fff" stroke="#e6e6e6" stroke-width="1.5"/>' +
+        '<g clip-path="url(#' + clipId + ')">' +
+          '<image href="' + imgHref + '" x="0" y="0" width="200" height="760" preserveAspectRatio="xMidYMid slice"/>' +
+          word +
+        '</g></svg>';
+    }
+
+    // ---- seeded splatter renderer, reused from deck.html ----
+    function mulberry32(seed){
+      return function(){
+        seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+        var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function renderSplatter(seed){
+      var rnd = mulberry32(seed);
+      function rand(a, b){ return a + rnd() * (b - a); }
+      var canvas = document.createElement('canvas');
+      canvas.width = 200; canvas.height = 760;
+      var ctx = canvas.getContext('2d');
+
+      function dab(x, y, r, angle, stretch){
+        stretch = stretch || 1;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle || 0);
+        ctx.scale(stretch, 1);
+        for(var i = 0; i < 3; i++){
+          var ox = rand(-r*0.22, r*0.22), oy = rand(-r*0.22, r*0.22), rr = r*rand(0.78,1.05);
+          var g = ctx.createRadialGradient(ox,oy,0,ox,oy,rr);
+          g.addColorStop(0,'rgba(120,15,9,0.94)');
+          g.addColorStop(0.55,'rgba(179,27,16,0.86)');
+          g.addColorStop(1,'rgba(179,27,16,0)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(ox,oy,rr,rr*0.85,0,0,Math.PI*2); ctx.fill();
+        }
+        if(rnd() < 0.55){
+          var fn = 1 + Math.floor(rnd()*2);
+          for(var j=0;j<fn;j++){
+            ctx.fillStyle='rgba(34,9,5,'+rand(0.35,0.6).toFixed(2)+')';
+            ctx.beginPath(); ctx.ellipse(rand(-r*0.55,r*0.55),rand(-r*0.45,r*0.45),rand(0.6,1.5),rand(0.6,1.5),rand(0,6.28),0,6.28); ctx.fill();
+          }
+        }
+        var prevOp = ctx.globalCompositeOperation;
+        ctx.globalCompositeOperation='lighter';
+        var hg = ctx.createRadialGradient(-r*0.28,-r*0.32,0,-r*0.28,-r*0.32,r*0.5);
+        hg.addColorStop(0,'rgba(255,214,170,0.5)'); hg.addColorStop(1,'rgba(255,214,170,0)');
+        ctx.fillStyle=hg; ctx.beginPath(); ctx.ellipse(-r*0.28,-r*0.32,r*0.5,r*0.4,0,0,Math.PI*2); ctx.fill();
+        ctx.globalCompositeOperation=prevOp;
+        ctx.restore();
+      }
+
+      var x = 100, y = 40;
+      var steps = 160;
+      for(var i=0;i<steps;i++){
+        var t=i/steps; x += rand(-4,4); x = Math.max(48,Math.min(152,x)); y = 40 + t*690;
+        var r = rand(9,18) * (0.7 + 0.3*Math.sin(t*9));
+        dab(x,y,r,rand(-0.3,0.3),rand(1,1.6));
+      }
+      for(var b=0;b<3;b++){
+        var bx=rand(60,140), by=rand(140,560), blen=Math.floor(rand(14,26));
+        for(var k=0;k<blen;k++){ bx += rand(-3,5)*(b%2===0?1:-1); by += rand(6,12); dab(bx,by,rand(5,10),rand(-0.4,0.4),rand(1,1.4)); }
+      }
+      for(var s=0;s<46;s++){ dab(rand(30,170),rand(20,740),rand(2,7),rand(0,6.28),1); }
+
+      return canvas.toDataURL('image/png');
+    }
+
+    // ---- assemble flying decks ----
+    var splatterA = renderSplatter(1337);
+    var splatterB = renderSplatter(4242);
+    var assets = ['sauce.jpg?v=2', splatterA, 'sauce.jpg?v=2', splatterB, 'sauce.jpg?v=2', splatterA];
+
+    var flyers = document.getElementById('flyers');
+    var lanes = [
+      { y0:'-6vh', y1:'-11vh', y2:'-2vh', top:'6%',  width:150, dur:26, delay:-2,  s:1.05 },
+      { y0:'2vh',  y1:'-3vh',  y2:'6vh',  top:'26%', width:110, dur:33, delay:-14, s:0.82 },
+      { y0:'-3vh', y1:'2vh',   y2:'-8vh', top:'48%', width:170, dur:22, delay:-9,  s:1.15 },
+      { y0:'4vh',  y1:'-6vh',  y2:'1vh',  top:'62%', width:95,  dur:38, delay:-20, s:0.7  },
+      { y0:'-2vh', y1:'5vh',   y2:'-4vh', top:'12%', width:130, dur:29, delay:-5,  s:0.95 },
+      { y0:'3vh',  y1:'-2vh',  y2:'5vh',  top:'74%', width:140, dur:24, delay:-17, s:1.0  }
+    ];
+
+    lanes.forEach(function(lane, i){
+      var el = document.createElement('div');
+      el.className = 'flyer';
+      el.style.top = lane.top;
+      el.style.width = lane.width + 'px';
+      el.style.setProperty('--y0', lane.y0);
+      el.style.setProperty('--y1', lane.y1);
+      el.style.setProperty('--y2', lane.y2);
+      el.style.setProperty('--r0', (i % 2 ? '-8deg' : '7deg'));
+      el.style.setProperty('--r1', (i % 2 ? '5deg' : '-6deg'));
+      el.style.setProperty('--r2', (i % 2 ? '-6deg' : '6deg'));
+      el.style.setProperty('--s', lane.s);
+      el.style.animationDuration = lane.dur + 's';
+      el.style.animationDelay = lane.delay + 's';
+      el.innerHTML = deckSVG(assets[i % assets.length], i % 2 === 0, 'clip' + i);
+      flyers.appendChild(el);
+    });
+
+    // ---- soft cloud layer ----
+    var cloudsRoot = document.getElementById('clouds');
+    var cloudDefs = [
+      { cls:'far',  top:'8%',  w:340, h:120, dur:52, delay:-10 },
+      { cls:'far',  top:'20%', w:260, h:90,  dur:60, delay:-28 },
+      { cls:'',     top:'34%', w:300, h:110, dur:44, delay:-6  },
+      { cls:'near', top:'50%', w:380, h:130, dur:38, delay:-20 },
+      { cls:'',     top:'64%', w:260, h:90,  dur:48, delay:-14 },
+      { cls:'near', top:'78%', w:320, h:110, dur:34, delay:-4  },
+      { cls:'far',  top:'90%', w:280, h:100, dur:56, delay:-32 }
+    ];
+    cloudDefs.forEach(function(c, i){
+      var el = document.createElement('div');
+      el.className = 'cloud ' + c.cls;
+      el.style.top = c.top;
+      el.style.left = (i % 2 ? '-15vw' : '60vw');
+      el.style.width = c.w + 'px';
+      el.style.height = c.h + 'px';
+      el.style.animation = 'cloudDrift ' + c.dur + 's ease-in-out infinite alternate';
+      el.style.animationDelay = c.delay + 's';
+      cloudsRoot.appendChild(el);
+    });
+  </script>
+</body>
+</html>
