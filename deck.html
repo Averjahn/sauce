@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>дека — соус</title>
+<meta name="description" content="дека для скейтборда — соус">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 C10 13 7 18 7 22 a9 9 0 0 0 18 0 C25 18 22 13 16 3 Z' fill='%23000'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#000;
+    --whisper:#b9b9b9;
+    --ghost:#dcdcdc;
+    --ease:cubic-bezier(.16,.7,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:#fff;
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Inter",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:5vh 24px 6vh;
+  }
+
+  .back{
+    position:fixed;
+    top:26px;
+    left:30px;
+    font-size:.7rem;
+    letter-spacing:.1em;
+    color:var(--ghost);
+    text-decoration:none;
+    transition:color .3s var(--ease);
+  }
+  .back:hover{color:var(--whisper)}
+
+  .title{
+    font-size:clamp(1.05rem,2.4vw,1.35rem);
+    font-weight:400;
+    letter-spacing:.42em;
+    text-indent:.42em;
+    animation:rise 1s var(--ease) both;
+    margin-bottom:clamp(32px,6vh,64px);
+  }
+
+  .decks{
+    display:flex;
+    gap:clamp(48px,8vw,140px);
+    align-items:flex-start;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .piece{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:22px;
+    animation:rise 1.15s var(--ease) both;
+  }
+  .piece:nth-child(2){animation-delay:.12s}
+
+  .deckWrap{
+    width:min(20vw,158px);
+    filter:drop-shadow(0 30px 40px rgba(0,0,0,.08));
+  }
+  .deckWrap svg{display:block;width:100%;height:auto}
+
+  .caption{
+    font-size:.78rem;
+    letter-spacing:.14em;
+    color:var(--whisper);
+    text-align:center;
+  }
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:none}
+  }
+
+  @media (max-width:720px){
+    .decks{flex-direction:column;align-items:center;gap:56px}
+    .deckWrap{width:min(58vw,240px)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+  <a class="back" href="./">← соус</a>
+
+  <div class="title">дека</div>
+
+  <div class="decks">
+
+    <!-- концепт A — минимал -->
+    <div class="piece">
+      <div class="deckWrap">
+        <svg viewBox="0 0 200 760" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="deckClipA">
+              <path d="M100 4
+                       C140 4 158 22 162 60
+                       L172 220
+                       C176 260 178 300 178 380
+                       C178 460 176 500 172 540
+                       L162 700
+                       C158 738 140 756 100 756
+                       C60 756 42 738 38 700
+                       L28 540
+                       C24 500 22 460 22 380
+                       C22 300 24 260 28 220
+                       L38 60
+                       C42 22 60 4 100 4 Z"/>
+            </clipPath>
+          </defs>
+          <use href="#deckOutlineA" fill="#fff" stroke="#e4e4e4" stroke-width="1.5"/>
+          <path id="deckOutlineA" d="M100 4
+                   C140 4 158 22 162 60
+                   L172 220
+                   C176 260 178 300 178 380
+                   C178 460 176 500 172 540
+                   L162 700
+                   C158 738 140 756 100 756
+                   C60 756 42 738 38 700
+                   L28 540
+                   C24 500 22 460 22 380
+                   C22 300 24 260 28 220
+                   L38 60
+                   C42 22 60 4 100 4 Z"
+                fill="#fff" stroke="#e6e6e6" stroke-width="1.5"/>
+          <g clip-path="url(#deckClipA)">
+            <image href="sauce.jpg?v=2" x="46" y="150" width="108" height="292" preserveAspectRatio="xMidYMid meet"/>
+            <text x="100" y="700" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,sans-serif" font-size="17" letter-spacing="7" fill="#000">соус</text>
+          </g>
+        </svg>
+      </div>
+      <div class="caption">минимал</div>
+    </div>
+
+    <!-- концепт B — абсурдный потёк -->
+    <div class="piece">
+      <div class="deckWrap">
+        <svg viewBox="0 0 200 760" xmlns="http://www.w3.org/2000/svg" id="deckSvgB">
+          <defs>
+            <clipPath id="deckClipB">
+              <path d="M100 4
+                       C140 4 158 22 162 60
+                       L172 220
+                       C176 260 178 300 178 380
+                       C178 460 176 500 172 540
+                       L162 700
+                       C158 738 140 756 100 756
+                       C60 756 42 738 38 700
+                       L28 540
+                       C24 500 22 460 22 380
+                       C22 300 24 260 28 220
+                       L38 60
+                       C42 22 60 4 100 4 Z"/>
+            </clipPath>
+          </defs>
+          <path d="M100 4
+                   C140 4 158 22 162 60
+                   L172 220
+                   C176 260 178 300 178 380
+                   C178 460 176 500 172 540
+                   L162 700
+                   C158 738 140 756 100 756
+                   C60 756 42 738 38 700
+                   L28 540
+                   C24 500 22 460 22 380
+                   C22 300 24 260 28 220
+                   L38 60
+                   C42 22 60 4 100 4 Z"
+                fill="#fff" stroke="#e6e6e6" stroke-width="1.5"/>
+          <foreignObject x="0" y="0" width="200" height="760" clip-path="url(#deckClipB)">
+            <canvas id="sauceCanvasB" xmlns="http://www.w3.org/1999/xhtml" width="200" height="760" style="width:200px;height:760px;display:block"></canvas>
+          </foreignObject>
+        </svg>
+      </div>
+      <div class="caption">абсурдный потёк</div>
+    </div>
+
+  </div>
+
+  <script>
+    // seeded PRNG so the "потёк" composition is a fixed artwork, not noise on every load
+    function mulberry32(seed){
+      return function(){
+        seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+        var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    var rnd = mulberry32(1337);
+    function rand(a, b){ return a + rnd() * (b - a); }
+
+    var canvas = document.getElementById('sauceCanvasB');
+    var ctx = canvas.getContext('2d');
+
+    function dab(x, y, r, angle, stretch){
+      stretch = stretch || 1;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle || 0);
+      ctx.scale(stretch, 1);
+
+      var n = 3;
+      for(var i = 0; i < n; i++){
+        var ox = rand(-r * 0.22, r * 0.22);
+        var oy = rand(-r * 0.22, r * 0.22);
+        var rr = r * rand(0.78, 1.05);
+        var g = ctx.createRadialGradient(ox, oy, 0, ox, oy, rr);
+        g.addColorStop(0,    'rgba(120,15,9,0.94)');
+        g.addColorStop(0.55, 'rgba(179,27,16,0.86)');
+        g.addColorStop(1,    'rgba(179,27,16,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(ox, oy, rr, rr * 0.85, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if(rnd() < 0.55){
+        var fn = 1 + Math.floor(rnd() * 2);
+        for(var j = 0; j < fn; j++){
+          ctx.fillStyle = 'rgba(34,9,5,' + rand(0.35, 0.6).toFixed(2) + ')';
+          ctx.beginPath();
+          ctx.ellipse(rand(-r*0.55, r*0.55), rand(-r*0.45, r*0.45), rand(0.6,1.5), rand(0.6,1.5), rand(0,6.28), 0, 6.28);
+          ctx.fill();
+        }
+      }
+
+      var prevOp = ctx.globalCompositeOperation;
+      ctx.globalCompositeOperation = 'lighter';
+      var hg = ctx.createRadialGradient(-r*0.28, -r*0.32, 0, -r*0.28, -r*0.32, r*0.5);
+      hg.addColorStop(0, 'rgba(255,214,170,0.5)');
+      hg.addColorStop(1, 'rgba(255,214,170,0)');
+      ctx.fillStyle = hg;
+      ctx.beginPath();
+      ctx.ellipse(-r*0.28, -r*0.32, r*0.5, r*0.4, 0, 0, Math.PI*2);
+      ctx.fill();
+      ctx.globalCompositeOperation = prevOp;
+
+      ctx.restore();
+    }
+
+    // main pour: a wandering drip from nose to tail
+    var x = 100, y = 40;
+    var steps = 160;
+    for(var i = 0; i < steps; i++){
+      var t = i / steps;
+      x += rand(-4, 4);
+      x = Math.max(48, Math.min(152, x));
+      y = 40 + t * 690;
+      var r = rand(9, 18) * (0.7 + 0.3 * Math.sin(t * 9));
+      dab(x, y, r, rand(-0.3, 0.3), rand(1, 1.6));
+    }
+
+    // secondary rivulets branching off the main pour
+    for(var b = 0; b < 3; b++){
+      var bx = rand(60, 140);
+      var by = rand(140, 560);
+      var blen = Math.floor(rand(14, 26));
+      for(var k = 0; k < blen; k++){
+        var bt = k / blen;
+        bx += rand(-3, 5) * (b % 2 === 0 ? 1 : -1);
+        by += rand(6, 12);
+        dab(bx, by, rand(5, 10), rand(-0.4, 0.4), rand(1, 1.4));
+      }
+    }
+
+    // scattered splatter droplets
+    for(var s = 0; s < 46; s++){
+      dab(rand(30, 170), rand(20, 740), rand(2, 7), rand(0, 6.28), 1);
+    }
+  </script>
+</body>
+</html>
