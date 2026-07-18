@@ -106,6 +106,21 @@
                      L38 60
                      C42 22 60 4 100 4 Z"/>
           </clipPath>
+          <linearGradient id="concave" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#000" stop-opacity=".4"/>
+            <stop offset="16%"  stop-color="#000" stop-opacity=".14"/>
+            <stop offset="34%"  stop-color="#000" stop-opacity="0"/>
+            <stop offset="66%"  stop-color="#000" stop-opacity="0"/>
+            <stop offset="84%"  stop-color="#000" stop-opacity=".14"/>
+            <stop offset="100%" stop-color="#000" stop-opacity=".4"/>
+          </linearGradient>
+          <linearGradient id="concaveHi" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#fff" stop-opacity="0"/>
+            <stop offset="26%"  stop-color="#fff" stop-opacity=".55"/>
+            <stop offset="50%"  stop-color="#fff" stop-opacity="0"/>
+            <stop offset="74%"  stop-color="#fff" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </linearGradient>
         </defs>
         <path d="M100 4
                  C140 4 158 22 162 60
@@ -125,9 +140,14 @@
           <image href="sauce.jpg?v=2" x="44" y="150" width="112" height="304" preserveAspectRatio="xMidYMid meet"/>
           <text x="100" y="706" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,sans-serif" font-size="18" letter-spacing="7" fill="#000">соус</text>
         </g>
+        <!-- concave shading: deep, high-concave scoop suggested via rail shadow + wall highlight -->
+        <g clip-path="url(#deckClip)">
+          <rect x="0" y="0" width="200" height="764" fill="url(#concave)" style="mix-blend-mode:multiply"/>
+          <rect x="0" y="0" width="200" height="764" fill="url(#concaveHi)" style="mix-blend-mode:screen" opacity=".45"/>
+        </g>
       </svg>
     </div>
-    <div class="caption">8.25″</div>
+    <div class="caption">standard shape<br>8.25″ · high concave</div>
   </div>
 </body>
 </html>
