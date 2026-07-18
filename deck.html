@@ -89,22 +89,16 @@
 
   <div class="piece">
     <div class="deckWrap">
-      <svg viewBox="0 0 200 764" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 200 618" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <clipPath id="deckClip">
             <path d="M100 4
-                     C140 4 158 22 162 60
-                     L172 220
-                     C176 260 178 300 178 382
-                     C178 464 176 504 172 544
-                     L162 704
-                     C158 742 140 760 100 760
-                     C60 760 42 742 38 704
-                     L28 544
-                     C24 504 22 464 22 382
-                     C22 300 24 260 28 220
-                     L38 60
-                     C42 22 60 4 100 4 Z"/>
+                     C142 4 178 32 180 72
+                     L180 546
+                     C178 586 142 614 100 614
+                     C58 614 22 586 20 546
+                     L20 72
+                     C22 32 58 4 100 4 Z"/>
           </clipPath>
           <linearGradient id="concave" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
             <stop offset="0%"   stop-color="#000" stop-opacity=".4"/>
@@ -123,27 +117,32 @@
           </linearGradient>
         </defs>
         <path d="M100 4
-                 C140 4 158 22 162 60
-                 L172 220
-                 C176 260 178 300 178 382
-                 C178 464 176 504 172 544
-                 L162 704
-                 C158 742 140 760 100 760
-                 C60 760 42 742 38 704
-                 L28 544
-                 C24 504 22 464 22 382
-                 C22 300 24 260 28 220
-                 L38 60
-                 C42 22 60 4 100 4 Z"
+                 C142 4 178 32 180 72
+                 L180 546
+                 C178 586 142 614 100 614
+                 C58 614 22 586 20 546
+                 L20 72
+                 C22 32 58 4 100 4 Z"
               fill="#fff" stroke="#e6e6e6" stroke-width="1.5"/>
         <g clip-path="url(#deckClip)">
-          <image href="sauce.jpg?v=2" x="44" y="150" width="112" height="304" preserveAspectRatio="xMidYMid meet"/>
-          <text x="100" y="706" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,sans-serif" font-size="18" letter-spacing="7" fill="#000">соус</text>
+          <image href="sauce.jpg?v=2" x="55" y="187" width="90" height="244" preserveAspectRatio="xMidYMid meet"/>
+          <text x="100" y="600" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Helvetica Neue,Arial,sans-serif" font-size="14" letter-spacing="5" fill="#000">соус</text>
         </g>
         <!-- concave shading: deep, high-concave scoop suggested via rail shadow + wall highlight -->
         <g clip-path="url(#deckClip)">
-          <rect x="0" y="0" width="200" height="764" fill="url(#concave)" style="mix-blend-mode:multiply"/>
-          <rect x="0" y="0" width="200" height="764" fill="url(#concaveHi)" style="mix-blend-mode:screen" opacity=".45"/>
+          <rect x="0" y="0" width="200" height="618" fill="url(#concave)" style="mix-blend-mode:multiply"/>
+          <rect x="0" y="0" width="200" height="618" fill="url(#concaveHi)" style="mix-blend-mode:screen" opacity=".45"/>
+        </g>
+        <!-- truck mounting bolts, for the "unmistakably a skateboard" read -->
+        <g fill="none" stroke="#d8d8d8" stroke-width="1.4">
+          <circle cx="83"  cy="57"  r="3.4"/>
+          <circle cx="117" cy="57"  r="3.4"/>
+          <circle cx="83"  cy="84"  r="3.4"/>
+          <circle cx="117" cy="84"  r="3.4"/>
+          <circle cx="83"  cy="561" r="3.4"/>
+          <circle cx="117" cy="561" r="3.4"/>
+          <circle cx="83"  cy="534" r="3.4"/>
+          <circle cx="117" cy="534" r="3.4"/>
         </g>
       </svg>
     </div>
