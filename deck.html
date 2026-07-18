@@ -60,10 +60,9 @@
   }
 
   .deckWrap{
-    height:min(60vh,600px);
-    filter:drop-shadow(0 30px 40px rgba(0,0,0,.08));
+    height:min(64vh,640px);
   }
-  .deckWrap svg{display:block;height:100%;width:auto;margin:0 auto}
+  .deckWrap img{display:block;height:100%;width:auto;margin:0 auto}
 
   .caption{
     font-size:.78rem;
@@ -89,54 +88,7 @@
 
   <div class="piece">
     <div class="deckWrap">
-      <svg viewBox="0 0 200 618" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <clipPath id="deckClip">
-            <path d="M100 4
-                     C142 4 178 32 180 72
-                     L180 546
-                     C178 586 142 614 100 614
-                     C58 614 22 586 20 546
-                     L20 72
-                     C22 32 58 4 100 4 Z"/>
-          </clipPath>
-          <linearGradient id="concave" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0%"   stop-color="#000" stop-opacity=".22"/>
-            <stop offset="5%"   stop-color="#000" stop-opacity="0"/>
-            <stop offset="95%"  stop-color="#000" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#000" stop-opacity=".22"/>
-          </linearGradient>
-        </defs>
-        <path d="M100 4
-                 C142 4 178 32 180 72
-                 L180 546
-                 C178 586 142 614 100 614
-                 C58 614 22 586 20 546
-                 L20 72
-                 C22 32 58 4 100 4 Z"
-              fill="#fff" stroke="#dcb98a" stroke-width="2"/>
-        <g clip-path="url(#deckClip)">
-          <text x="100" y="309" text-anchor="middle" dominant-baseline="middle"
-                transform="rotate(-90 100 309)"
-                font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif"
-                font-weight="900" font-size="132" letter-spacing="-5" fill="#000">СОУС</text>
-        </g>
-        <!-- faint natural rail shadow, matching a real studio product shot -->
-        <g clip-path="url(#deckClip)">
-          <rect x="0" y="0" width="200" height="618" fill="url(#concave)" style="mix-blend-mode:multiply"/>
-        </g>
-        <!-- truck mounting bolts, for the "unmistakably a skateboard" read -->
-        <g fill="none" stroke="#d8d8d8" stroke-width="1.4">
-          <circle cx="83"  cy="57"  r="3.4"/>
-          <circle cx="117" cy="57"  r="3.4"/>
-          <circle cx="83"  cy="84"  r="3.4"/>
-          <circle cx="117" cy="84"  r="3.4"/>
-          <circle cx="83"  cy="561" r="3.4"/>
-          <circle cx="117" cy="561" r="3.4"/>
-          <circle cx="83"  cy="534" r="3.4"/>
-          <circle cx="117" cy="534" r="3.4"/>
-        </g>
-      </svg>
+      <img src="deck-photo.png" alt="дека соус — standard shape 8.25″" width="1536" height="2752">
     </div>
     <div class="caption">standard shape<br>8.25″ · high concave</div>
   </div>
